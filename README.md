@@ -24,7 +24,8 @@ portfolio-game/
 │       ├── Gyoseki_チーム注文マニュアル.pdf
 │       └── IA_Gyoseki_Quantif-i操作方法.pdf
 └── analysis/
-    └── volatility_analysis.ipynb   # J-Quants APIでのボラ分析
+    ├── volatility_analysis.ipynb   # スナップショット分析（ボラ・相関・散布図）
+    └── risk.ipynb                  # ★メイン：ローリング指標・GBM予測・ポートフォリオ
 ```
 
 ---
@@ -118,15 +119,20 @@ portfolio-game/
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install yfinance pandas numpy matplotlib seaborn jupyter
+pip install yfinance pandas numpy matplotlib seaborn scipy ipywidgets jupyter scipy
 
-jupyter notebook analysis/volatility_analysis.ipynb
+jupyter notebook analysis/risk.ipynb
 ```
 
-### ノートブックでできること
-- yfinance で指定30銘柄の日次株価を一括取得（東証コード + `.T`、分割・配当調整済み）
-- 日次リターン／ヒストリカル・ボラティリティ（年率）／シャープレシオの算出
-- セクター別ボラの横棒グラフ
-- リスク・リターン散布図
-- 30×30 リターン相関ヒートマップ
-- 20日ローリング年率ボラ（セクター別）
+### `risk.ipynb` でできること（メイン分析）
+
+1. **直近3ヶ月 × 20日ローリング** で 年率リターン／年率ボラ／シャープレシオ
+   - ① 全30銘柄ポートフォリオ（等加重）
+   - ② セクター別ポートフォリオ（エンタメ・運輸・小売）
+   - ③ セクター内 30銘柄個別
+2. **2年スパン × 3ヶ月（60日）ローリング** — 過去どの時点で買っていたらどうだったか
+3. **GBM予測（1銘柄、対話的UI）** — μ・σを推定 or 手動指定、±1〜3σ シグマバンド、VaR 95%/99%
+4. **3銘柄ポートフォリオ（対話的UI）** — 相関行列ベースの真のリスク、分散効果、ポートフォリオVaR
+
+### `volatility_analysis.ipynb`（補助）
+- 過去1年の一発スナップショット：年率ボラ棒グラフ／リスク・リターン散布図／30×30相関ヒートマップ／ローリングボラ
