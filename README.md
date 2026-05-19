@@ -16,6 +16,7 @@ portfolio-game/
 │   ├── lectures/                   # 授業資料（PDF）
 │   │   ├── 12期生カリキュラム.pdf
 │   │   ├── IA_授業1_20260507.pdf
+│   │   ├── IA_授業2_20260511.pdf
 │   │   ├── IA_授業3_20260514.pdf
 │   │   └── IA_授業4_20260518.pdf
 │   └── gyoseki-guide/              # Gyoseki操作マニュアル
