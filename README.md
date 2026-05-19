@@ -108,39 +108,25 @@ portfolio-game/
 
 ---
 
-## 📊 分析環境（J-Quants API）
+## 📊 分析環境（Yahoo Finance / yfinance）
 
 [`analysis/volatility_analysis.ipynb`](analysis/volatility_analysis.ipynb) でボラティリティ等を分析。
+**APIキー・認証情報・課金 すべて不要**。
 
 ### セットアップ
 
-1. [J-Quants](https://jpx-jquants.com/) でアカウント登録しメールアドレス／パスワードを取得
-2. リポジトリ直下に `.env` を作成（**コミット禁止**、`.gitignore` 済み）
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install yfinance pandas numpy matplotlib seaborn jupyter
 
-   ```env
-   JQUANTS_EMAIL=your_email@example.com
-   JQUANTS_PASSWORD=your_password
-   ```
-
-3. 必要パッケージ
-   ```bash
-   pip install pandas numpy matplotlib seaborn requests python-dotenv jupyter
-   ```
-
-4. ノートブック起動
-   ```bash
-   jupyter notebook analysis/volatility_analysis.ipynb
-   ```
+jupyter notebook analysis/volatility_analysis.ipynb
+```
 
 ### ノートブックでできること
-- J-Quants 認証（リフレッシュトークン → IDトークン）
-- 指定30銘柄の日次株価取得
-- 日次リターン／ヒストリカル・ボラティリティ（年率）の算出
-- セクター別ボラ比較・相関行列の可視化
-
----
-
-## 🔐 セキュリティ
-
-- API認証情報は必ず `.env` に保存（`.gitignore`済み）
-- `.env`／APIキー／パスワード／個人情報を含むファイルはコミット禁止
+- yfinance で指定30銘柄の日次株価を一括取得（東証コード + `.T`、分割・配当調整済み）
+- 日次リターン／ヒストリカル・ボラティリティ（年率）／シャープレシオの算出
+- セクター別ボラの横棒グラフ
+- リスク・リターン散布図
+- 30×30 リターン相関ヒートマップ
+- 20日ローリング年率ボラ（セクター別）
