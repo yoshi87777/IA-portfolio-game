@@ -27,3 +27,7 @@ analysis/IA-portfolio-game/
 
 # PDFs (lecture/guide materials — not for public repo)
 *.pdf
+
+# Local-only rule/notes files
+*.local.md
+docs/

@@ -1,7 +1,7 @@
-# IA Portfolio Game — 12期生
+# Portfolio Game — 定量リスク分析ツール
 
-Identity Academy 12期生のポートフォリオゲーム用リポジトリ。
-ルール／資料の整理、対象銘柄の管理、J-Quants APIを用いたボラティリティ分析を行う。
+日本株30銘柄を対象とした、ポートフォリオゲーム用の定量リスク分析ツール。
+yfinanceで株価を取得し、GBM予測・VaR・相関ベースのポートフォリオリスクを可視化する。
 
 ---
 
@@ -11,60 +11,18 @@ Identity Academy 12期生のポートフォリオゲーム用リポジトリ。
 portfolio-game/
 ├── README.md                       # 本ファイル
 ├── data/
-│   └── stocks.csv                  # 指定30銘柄（エンタメ/運輸/小売）
-├── docs/
-│   ├── lectures/                   # 授業資料（PDF）
-│   │   ├── 12期生カリキュラム.pdf
-│   │   ├── IA_授業1_20260507.pdf
-│   │   ├── IA_授業2_20260511.pdf
-│   │   ├── IA_授業3_20260514.pdf
-│   │   └── IA_授業4_20260518.pdf
-│   └── gyoseki-guide/              # Gyoseki操作マニュアル
-│       ├── Gyoseki_参加方法_v2.pdf
-│       ├── Gyoseki_チーム注文マニュアル.pdf
-│       └── IA_Gyoseki_Quantif-i操作方法.pdf
+│   └── stocks.csv                  # 対象30銘柄（エンタメ/運輸/小売）
 └── analysis/
     ├── volatility_analysis.ipynb   # スナップショット分析（ボラ・相関・散布図）
     ├── risk.ipynb                  # ローリング指標（3ヶ月 + 2年スパン）
-    └── forecast.ipynb              # ★対話UI：GBM予測 + 3銘柄ポートフォリオ（任意銘柄OK）
+    └── forecast.ipynb              # ★対話UI：GBM予測 + 3銘柄ポートフォリオ
 ```
 
 ---
 
-## 📜 ルール
+## 🏷️ 対象30銘柄
 
-### 注文ルール・方法
-
-- **任意銘柄の条件**: 時価総額 **100億円以上** かつ **上場後1年以上**
-- **仮説の記入**: 注文を出す際に Gyoseki 上のノートに必ず仮説を記入する
-- **注文タイトル**: `グループ名_buy/sell_銘柄_注文数` の形式厳守（フォーマット違反は注文が通らない可能性あり）
-- **注文価格**: 成行（**始値** または **終値**）
-- **反対売買禁止期間**: 最低 **2日間** は反対売買不可
-- **任意銘柄の解禁**: 指定30銘柄のうち **2銘柄目** を購入したチームから任意銘柄の注文が可能
-- **3銘柄保有後の扱い**: 一度3銘柄保有した時点で、その後指定銘柄を売却して指定1銘柄に戻っても任意銘柄の取引は継続可
-
-### 銘柄数の解禁スケジュール
-
-| タイミング | 投資可能数 | 条件 |
-| --- | --- | --- |
-| 現時点 | 30銘柄中 **1銘柄** | — |
-| 今週中 | **2銘柄目** 解禁 | 木曜日の課題提出次第 |
-| 今週末〜来週頭 | **3銘柄目** 解禁 | 木曜の課題提出を終えたチームから |
-
-### トレード実務の注意点
-
-- トレード可能タイミングは **1日のオープニングと後場引けの2点のみ**
-- Gyoseki で **オープニング／大引けの30分前まで** にオーダー入力が必要
-- **1銘柄あたりの金額は 150万円以下**（ポートフォリオ最大金額の50%まで）
-- 売買は基本的に **単元株が最低単位**（銘柄によって異なる）
-- 単元株で150万円を超える場合のみ **端株取引が可能**
-
----
-
-## 🏷️ 指定30銘柄
-
-データは [`data/stocks.csv`](data/stocks.csv) に格納。
-時価総額（億円）は2026/05時点のスナップショット。
+データは [`data/stocks.csv`](data/stocks.csv) に格納。時価総額（億円）は2026/05時点のスナップショット。
 
 ### エンタメ（10銘柄）
 | コード | 社名 | 時価総額 | 概要 |
@@ -112,7 +70,6 @@ portfolio-game/
 
 ## 📊 分析環境（Yahoo Finance / yfinance）
 
-[`analysis/volatility_analysis.ipynb`](analysis/volatility_analysis.ipynb) でボラティリティ等を分析。
 **APIキー・認証情報・課金 すべて不要**。
 
 ### セットアップ
@@ -120,9 +77,9 @@ portfolio-game/
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install yfinance pandas numpy matplotlib seaborn scipy ipywidgets jupyter scipy
+pip install yfinance pandas numpy matplotlib seaborn scipy ipywidgets jupyter
 
-jupyter notebook analysis/risk.ipynb
+jupyter notebook analysis/forecast.ipynb
 ```
 
 ### `forecast.ipynb`（★対話UI）
